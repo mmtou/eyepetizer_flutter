@@ -2,10 +2,10 @@
 # 开眼视频 Flutter 高仿版
 > 「开眼」是一款充满设计感的精品短视频应用。汇聚全球优质的短视频内容，推荐创意的短视频作品，从视觉到脑洞，带给用户全方位的惊喜与享受。
 
-[开眼视频 Flutter 高仿版](https://github.com/mmtou/eyepetizer_flutter) 是基于「开眼」非开放 API 、使用 flutter 开发。
+[开眼视频 Flutter 高仿版](https://github.com/mmtou/eyepetizer_flutter) 是基于「开眼」非开放 API 、使用 Flutter 开发。
 
 项目源码: [https://github.com/mmtou/eyepetizer_flutter](https://github.com/mmtou/eyepetizer_flutter)  
-下载体验: [https://fir.im/eyepetizer_flutter](https://fir.im/eyepetizer_flutter)
+下载体验: [https://fir.im/eyepetizer_flutter](https://fir.im/eyepetizer_flutter)  
 ![扫码下载体验](https://github.com/mmtou/eyepetizer_flutter/raw/master/demo/images/d1.png)
 
 ## 预览
@@ -34,7 +34,7 @@
 
 ## 小工具
 1. [Android Launcher icon generator](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html) 一款在线快速生成安卓 icon 的工具
-2. [Flutter插件库](https://pub.flutter-io.cn/)
+2. [Flutter国内插件库](https://pub.flutter-io.cn/)，速度会比`https://pub.dev`更快
 3. `Charles`是一款方便的抓包工具，开眼的API可以通过`Charles`直接抓到
 
 ## 本地运行
@@ -45,7 +45,7 @@ flutter pub get
 `Android Studio / VS Code`运行
 ```
 
-# 总结
+## 总结
 1. 动手写过一些代码后发现 Flutter 和 Vue 编码效率不相上下（有些时候可能会消耗好多时间找问题解决方案）
 > [开眼视频 Vue 高仿版 传送门](https://github.com/mmtou/eyepetizer_vue)
 2. Flutter 的组件实在是太多了，需要花费一定时间了解
