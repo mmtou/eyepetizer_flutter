@@ -5,7 +5,7 @@
 [开眼视频 Flutter 高仿版](https://github.com/mmtou/eyepetizer_flutter) 是基于「开眼」非开放 API 、使用 Flutter 开发。
 
 项目源码: [https://github.com/mmtou/eyepetizer_flutter](https://github.com/mmtou/eyepetizer_flutter)  
-下载体验: [https://fir.im/eyepetizer_flutter](https://fir.im/eyepetizer_flutter)  
+下载体验: [https://fir.im/eyepetizer](https://fir.im/eyepetizer)  
 ![扫码下载体验](https://github.com/mmtou/eyepetizer_flutter/raw/master/demo/images/d1.png)
 
 ## 预览
