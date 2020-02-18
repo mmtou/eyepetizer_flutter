@@ -94,9 +94,10 @@ class _Index extends State<Index> with SingleTickerProviderStateMixin {
     item['nextPageUrl'] = data['nextPageUrl'];
     item['adExist'] = data['adExist'];
     item['itemList'] = itemList;
+    this.tabs[this.active] = item;
 
     setState(() {
-      this.tabs[this.active] = item;
+      this.tabs = this.tabs;
     });
   }
 

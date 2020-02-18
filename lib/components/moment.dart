@@ -22,9 +22,13 @@ class Moment extends StatefulWidget {
   _Moment createState() => _Moment();
 }
 
-class _Moment extends State<Moment> {
+class _Moment extends State<Moment> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return EasyRefresh(
       child: getListView(),
       header:
@@ -811,5 +815,10 @@ class _Moment extends State<Moment> {
   playVideo(detail) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => Video(detail)));
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 }

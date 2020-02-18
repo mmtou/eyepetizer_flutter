@@ -2,12 +2,12 @@ import 'dart:ui';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-import '../components/moment.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 
+import '../components/moment.dart';
 import '../utils/common.dart';
 import '../utils/http.dart';
 
@@ -28,9 +28,6 @@ class _VideoState extends State<Video> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      appBar: AppBar(
-//        title: Text('视频详情'),
-//      ),
       body: Stack(
         children: <Widget>[
           CachedNetworkImage(
@@ -48,14 +45,15 @@ class _VideoState extends State<Video> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  getPlayer(),
+                  getPlayerWidget(),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         widget.detail['title'] != null &&
                                 widget.detail['title'].isNotEmpty
-                            ? Padding(
+                            ? Container(
+                                width: double.infinity,
                                 padding: EdgeInsets.only(
                                     left: 16, right: 16, top: 16),
                                 child: Text(
@@ -69,7 +67,8 @@ class _VideoState extends State<Video> {
                             : Container(),
                         (widget.detail['author'] != null ||
                                 widget.detail['owner'] != null)
-                            ? Padding(
+                            ? Container(
+                                width: double.infinity,
                                 padding: EdgeInsets.only(
                                     left: 16, right: 16, top: 16),
                                 child: Text(
@@ -80,98 +79,98 @@ class _VideoState extends State<Video> {
                               )
                             : Container(),
                         widget.detail['description'] != null
-                            ? Padding(
+                            ? Container(
+                                constraints: BoxConstraints(maxHeight: 150),
+                                width: double.infinity,
                                 padding: EdgeInsets.all(16),
-                                child: Text(
-                                  widget.detail['description'],
-                                  style: TextStyle(
-                                      color: Colors.white.withOpacity(0.8)),
+                                child: SingleChildScrollView(
+                                  child: Text(
+                                    widget.detail['description'],
+                                    style: TextStyle(
+                                        color: Colors.white.withOpacity(0.8)),
+                                  ),
                                 ),
                               )
                             : Container(),
                         widget.detail['consumption'] != null &&
                                 widget.detail['consumption'].length > 0
-                            ? Padding(
-                                padding: EdgeInsets.only(left: 16, right: 16),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    FlatButton.icon(
-                                      onPressed: () {
-                                        BotToast.showText(
-                                            text: '敬请期待~',
-                                            align: Alignment(0, 0));
-                                      },
-                                      icon: Icon(
-                                        Icons.favorite_border,
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  FlatButton.icon(
+                                    onPressed: () {
+                                      BotToast.showText(
+                                          text: '敬请期待~',
+                                          align: Alignment(0, 0));
+                                    },
+                                    icon: Icon(
+                                      Icons.favorite_border,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                    label: Text(
+                                      '${widget.detail['consumption']['collectionCount']}',
+                                      style: TextStyle(
                                         color: Colors.white,
-                                        size: 18,
-                                      ),
-                                      label: Text(
-                                        '${widget.detail['consumption']['collectionCount']}',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),
+                                        fontSize: 16,
                                       ),
                                     ),
-                                    FlatButton.icon(
-                                      onPressed: () {
-                                        Common.share(widget.detail['playUrl']);
-                                      },
-                                      icon: Icon(
-                                        Icons.share,
+                                  ),
+                                  FlatButton.icon(
+                                    onPressed: () {
+                                      Common.share(widget.detail['playUrl']);
+                                    },
+                                    icon: Icon(
+                                      Icons.share,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                    label: Text(
+                                      '${widget.detail['consumption']['shareCount']}',
+                                      style: TextStyle(
                                         color: Colors.white,
-                                        size: 18,
-                                      ),
-                                      label: Text(
-                                        '${widget.detail['consumption']['shareCount']}',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),
+                                        fontSize: 16,
                                       ),
                                     ),
-                                    FlatButton.icon(
-                                      onPressed: () {
-                                        Common.openUrl(
-                                            widget.detail['playUrl']);
-                                      },
-                                      icon: Icon(
-                                        Icons.file_download,
+                                  ),
+                                  FlatButton.icon(
+                                    onPressed: () {
+                                      Common.openUrl(widget.detail['playUrl']);
+                                    },
+                                    icon: Icon(
+                                      Icons.file_download,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                    label: Text(
+                                      '下载',
+                                      style: TextStyle(
                                         color: Colors.white,
-                                        size: 18,
-                                      ),
-                                      label: Text(
-                                        '下载',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),
+                                        fontSize: 16,
                                       ),
                                     ),
-                                    FlatButton.icon(
-                                      onPressed: () {
-                                        BotToast.showText(
-                                            text: '敬请期待~',
-                                            align: Alignment(0, 0));
-                                      },
-                                      icon: Icon(
-                                        Icons.star,
+                                  ),
+                                  FlatButton.icon(
+                                    onPressed: () {
+                                      BotToast.showText(
+                                          text: '敬请期待~',
+                                          align: Alignment(0, 0));
+                                    },
+                                    icon: Icon(
+                                      Icons.star,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
+                                    label: Text(
+                                      '${widget.detail['consumption']['realCollectionCount']}',
+                                      style: TextStyle(
                                         color: Colors.white,
-                                        size: 18,
-                                      ),
-                                      label: Text(
-                                        '${widget.detail['consumption']['realCollectionCount']}',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),
+                                        fontSize: 16,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               )
                             : Container(),
                         Expanded(
@@ -189,7 +188,9 @@ class _VideoState extends State<Video> {
     );
   }
 
-  Widget getPlayer() {
+  bool showVideoPoster;
+
+  Widget getPlayerWidget() {
     List playInfos = widget.detail['playInfo'];
     double videoHeight = 256;
     if (playInfos != null && playInfos.length > 0) {
@@ -205,13 +206,91 @@ class _VideoState extends State<Video> {
       ),
       width: MediaQuery.of(context).size.width,
       height: videoHeight,
-      child: IjkPlayer(
-        mediaController: controller,
-      ),
+      child: showVideoPoster
+          ? Stack(
+              children: <Widget>[
+                IjkPlayer(
+                  mediaController: controller,
+                ),
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: InkWell(
+                    onTap: playViode,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.detail['cover']['feed'],
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                      height: double.infinity,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: IconButton(
+                      icon: Icon(Icons.play_circle_filled),
+                      iconSize: 60,
+                      color: Colors.white,
+                      onPressed: playViode,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: 6,
+                  right: 6,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(2),
+                    child: Container(
+                      color: Colors.black,
+                      padding: EdgeInsets.all(3),
+                      child: Text(
+                        Common.secondToDate(widget.detail['duration']),
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : IjkPlayer(
+              mediaController: controller,
+            ),
     );
   }
 
+  playViode() {
+    controller.play();
+    setState(() {
+      this.showVideoPoster = false;
+    });
+  }
+
   init() async {
+    // 获取网络类型
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi) {
+      controller.setNetworkDataSource(widget.detail['playUrl'], autoPlay: true);
+      Future.delayed(Duration(milliseconds: 500), () {
+        setState(() {
+          this.showVideoPoster = false;
+        });
+      });
+    } else {
+      controller.setNetworkDataSource(widget.detail['playUrl'],
+          autoPlay: false);
+    }
+    // 查询相关推荐/评论等
     List relatedList = await this.getRelated();
     List replies = await this.getReplies();
     relatedList = relatedList.map((item) {
@@ -253,7 +332,7 @@ class _VideoState extends State<Video> {
   @override
   void initState() {
     super.initState();
-    controller.setNetworkDataSource(widget.detail['playUrl']);
+    this.showVideoPoster = true;
     this.init();
   }
 
