@@ -24,6 +24,92 @@
 - [ ] 评论
 - [ ] 性能优化
 
+## 关键代码
+1. 全局Toast轻提示/loading，在初始化`MaterialApp`时包上Toast组件，实现无`context`的Toast、Loading等。
+```dart
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BotToastInit(
+        child: MaterialApp(
+      title: '开眼视频',
+      theme: ThemeData(
+        primarySwatch: Colors.blueGrey,
+        primaryColor: Color(0xFF2E3034),
+        indicatorColor: Colors.white,
+      ),
+      navigatorObservers: [BotToastNavigatorObserver()],
+      home: Index(),
+    ));
+  }
+}
+```
+
+2. 基于`dio`的网络请求封装，拦截器在发起请求前可以 处理请求参数、在header中添加令牌等信息；在接收到服务器响应后，可以判断httpStatus、响应体的code等，做出响应处理。
+```dart
+class Http {
+  Dio _dio;
+
+  Http() {
+    if (_dio == null) {
+      _dio = Dio(
+        BaseOptions(
+          baseUrl: Constant.host,
+          connectTimeout: 5000,
+          receiveTimeout: 3000,
+          headers: {
+            'User-Agent': 'eyepetizer_flutter/1.0.0',
+            'Accept': '*/*',
+            'Cache-Control': 'no-cache',
+            'Host': 'baobab.kaiyanapp.com',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive'
+          },
+        ),
+      );
+
+      _dio.interceptors
+          .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+        // 判断参数、添加令牌等
+        return options;
+      }, onResponse: (Response response) async {
+        // 处理响应内容
+        return response; // continue
+      }, onError: (DioError e) async {
+        BotToast.showText(text: '服务器异常');
+        return e;
+      }));
+    }
+  }
+
+  Future get(uri, {queryParameters}) async {
+    try {
+      Response response = await _dio.get(uri, queryParameters: queryParameters);
+      return response.data;
+    } catch (e) {
+      print(e);
+    }
+  }
+}
+```
+
+3. 下拉刷新、上拉加载更多，支持多种炫酷的加载效果
+```dart
+EasyRefresh(
+  child: ListView(...),
+  header:
+      BezierCircleHeader(backgroundColor: Theme.of(context).primaryColor),
+  footer:
+      BezierBounceFooter(backgroundColor: Theme.of(context).primaryColor),
+  onRefresh: () async {
+    // 下拉刷新
+  },
+  onLoad: () {
+    // 上拉加载更多
+  },
+);
+```
+
 ## 插件
 - [dio ](https://github.com/flutterchina/dio)是一款由 [ flutterchina ](https://github.com/flutterchina)开发的http client插件，和大前端的`axios`可以媲美。
 - [bot_toast](https://github.com/MMMzq/bot_toast)是一款方便的不需要每次传context的Toast插件。
